@@ -1,222 +1,118 @@
-Simple LMS — Django Docker Project
+# Simple LMS Django Docker
 
-📌 Deskripsi Project
+## Deskripsi Project
 
+Project ini bertujuan untuk melakukan setup **environment development** aplikasi Simple Learning Management System (LMS) menggunakan Django Framework yang dijalankan di dalam container Docker.
 
+Project ini menerapkan konsep **multi-container orchestration** menggunakan Docker Compose sehingga service aplikasi web dan database dapat berjalan secara terpisah namun tetap terhubung dalam satu docker network.
 
-Project ini merupakan setup environment development untuk aplikasi Simple Learning Management System (LMS) menggunakan Django Framework yang dijalankan dengan Docker Compose.
+Melalui project ini, mahasiswa dapat memahami konsep containerization, konfigurasi environment, integrasi database PostgreSQL, serta deployment development server berbasis container.
 
+---
 
+## Arsitektur Service
 
-Tujuan dari project ini adalah memahami konsep:
+Project ini terdiri dari dua service utama:
 
+### Django Web Application
 
+Berfungsi sebagai backend aplikasi LMS yang menyediakan halaman web dan fitur administrasi Django.
 
-Containerization menggunakan Docker
-
-
-
-Multi-service architecture (Web + Database)
-
-
-
-Konfigurasi PostgreSQL pada aplikasi Django
-
-
-
-Penggunaan environment variables
-
-
-
-Deployment development environment yang portable
-
-
-
-🧱 Arsitektur Sistem
-
-
-
-Project terdiri dari 2 service utama:
-
-
-
-🖥️ Django Web Application
-
-
-
-Framework: Django
-
-
-
-Port akses: http://localhost:8000
-
-
-
-Berfungsi sebagai backend aplikasi LMS
-
-
-
-🗄️ PostgreSQL Database
-
-
-
-Image: postgres:15
-
-
-
-Digunakan sebagai database penyimpanan data aplikasi
-
-
-
-Semua service berjalan dalam Docker Network sehingga dapat saling terhubung menggunakan hostname service.
-
-
-
-⚙️ Cara Menjalankan Project
-
-
-
-Masuk ke folder project
-
-
-
-cd simple-lms
-
-
-
-Jalankan container menggunakan Docker Compose
-
-
-
-docker compose up --build
-
-
-
-Akses aplikasi melalui browser
-
-
+Aplikasi dapat diakses melalui browser:
 
 http://localhost:8000
 
+### PostgreSQL Database
 
+Digunakan sebagai media penyimpanan data aplikasi seperti user, session, dan konfigurasi sistem.
 
-👤 Membuat Superuser Django
+---
 
+## Cara Menjalankan Project
 
+1. Masuk ke folder project
 
-Untuk mengakses halaman admin jalankan perintah:
+```
+cd simple-lms
+```
 
+2. Build dan jalankan container
 
+```
+docker compose up --build
+```
 
-docker compose exec web python manage.py createsuperuser
+3. Setelah container berjalan, buka browser:
 
+```
+http://localhost:8000
+```
 
+4. Untuk mengakses halaman admin Django:
 
-Setelah berhasil login admin dapat diakses di:
-
-
-
+```
 http://localhost:8000/admin
+```
 
+---
 
+## Membuat Superuser Django
 
-🗄️ Konfigurasi Database
+Jalankan perintah berikut:
 
+```
+docker compose exec web python manage.py createsuperuser
+```
 
+---
 
-Django dikonfigurasi menggunakan PostgreSQL container.
+## Konfigurasi Database
 
+Project ini menggunakan PostgreSQL container dengan hostname service:
 
-
-Hostname database menggunakan nama service docker yaitu:
-
-
-
+```
 db
+```
 
+Karena berada dalam satu docker network, Django dapat langsung terhubung ke database tanpa konfigurasi IP manual.
 
+---
 
-Sehingga komunikasi antar container berjalan otomatis melalui docker network.
+## Environment Variables
 
+Konfigurasi database disimpan pada file `.env`
 
+Contoh:
 
-🔐 Environment Variables
+```
+POSTGRES_DB=lms_db
+POSTGRES_USER=lms_user
+POSTGRES_PASSWORD=lms_password
+POSTGRES_HOST=db
+POSTGRES_PORT=5432
+```
 
+---
 
+## Screenshot Django Welcome Page
 
-Konfigurasi database disimpan dalam file .env.
+![Welcome Page](screenshots/home.png)
 
+---
 
+## Pengujian
 
-Contoh konfigurasi:
+* Docker Compose berhasil menjalankan seluruh container
+* Aplikasi Django dapat diakses melalui localhost:8000
+* PostgreSQL database berhasil terkoneksi
+* Migration database berhasil dijalankan
+* Superuser berhasil dibuat
 
+---
 
-
-POSTGRES\_DB=lms\_db
-
-POSTGRES\_USER=lms\_user
-
-POSTGRES\_PASSWORD=lms\_password
-
-POSTGRES\_HOST=db
-
-POSTGRES\_PORT=5432
-
-
-
-📷 Screenshot Aplikasi
-
-Django Welcome Page
-
-
-
-Django Login Admin
-
-
-
-Django Admin Dashboard
-
-
-
-🧪 Hasil Pengujian
-
-
-
-Pengujian yang telah dilakukan:
-
-
-
-Docker Compose berhasil menjalankan semua service
-
-
-
-Django dapat diakses melalui browser
-
-
-
-PostgreSQL berhasil terkoneksi
-
-
-
-Migration database berhasil dijalankan
-
-
-
-Superuser berhasil dibuat
-
-
-
-Halaman admin dapat diakses
-
-
-
-👨‍💻 Author
-
-
+## Author
 
 Nama: GEDE PRADISTYA EVAN ARYAPUTRA
-
 NIM: A11.2023.14886
-
+Kelas: 4618
 Mata Kuliah: Pemrograman Sisi Server
-
